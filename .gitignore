@@ -1,0 +1,7 @@
+﻿# macOS
+.DS_Store
+Thumbs.db
+
+# Large images that could be re-hosted from Discord CDN
+*.png
+!content.json

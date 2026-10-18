@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Vietnam Airlines PTFS</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div class="login-backdrop" id="loginBackdrop" style="display:none">
+  <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <div class="lock" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <h2 id="loginTitle">Admin Access</h2>
+    <p>Enter the password to customize this website.</p>
+    <form id="loginForm" novalidate>
+      <div class="a-field">
+        <label class="visually-hidden" for="loginPass">Password</label>
+        <input type="password" id="loginPass" placeholder="Password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="admin-btn" style="width:100%">Unlock Admin Panel</button>
+      <div class="login-error" id="loginError" role="alert"></div>
+    </form>
+    <a href="index.html" style="display:inline-block;margin-top:16px;font-size:0.85rem;color:var(--vna-gold)">← Back to website</a>
+  </div>
+</div>
+
+<!-- ===== SHELL ===== -->
+<div class="admin-shell" id="adminShell" style="display:none">
+  <aside class="admin-sidebar">
+    <div class="admin-brand">
+      <h1>Vietnam Airlines PTFS</h1>
+      <p>Site Control Panel</p>
+    </div>
+    <nav class="admin-nav" aria-label="Admin sections">
+      <span class="nav-group">Site</span>
+      <a href="#tab-identity" data-admin-link data-tab="identity" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Identity</a>
+      <a href="#tab-theme" data-admin-link data-tab="theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9z"/></svg>Theme</a>
+      <a href="#tab-navigation" data-admin-link data-tab="navigation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>Navigation</a>
+      <span class="nav-group">Content</span>
+      <a href="#tab-pages" data-admin-link data-tab="pages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Pages & Sections</a>
+      <span class="nav-group">System</span>
+      <a href="#tab-transfer" data-admin-link data-tab="transfer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9l-3 3 3 3M19 15l3-3-3-3M9 6l6 12"/></svg>Import / Export</a>
+      <a href="#tab-danger" data-admin-link data-tab="danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>Danger Zone</a>
+    </nav>
+    <div style="margin:auto var(--s5) 0;padding-top:var(--s4);border-top:1px solid rgba(255,255,255,0.1);font-size:0.75rem;color:rgba(255,255,255,0.5)">
+      Edits save to this browser. Export to publish them.
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h2><span class="kicker">Customize your site</span><span id="tabTitle">Identity</span></h2>
+      <span class="admin-live"><span class="dot"></span> Live — saved to this browser</span>
+    </div>
+
+    <!-- ===== IDENTITY ===== -->
+    <section class="admin-section active" id="tabpane-identity">
+      <div class="admin-card">
+        <h3>Site Identity</h3>
+        <p class="card-desc">The name, tagline, logo and favicon shown across the whole site.</p>
+        <div class="a-grid">
+          <div class="a-field"><label>Site Name</label><input type="text" id="aSiteName" placeholder="Vietnam Airlines PTFS"></div>
+          <div class="a-field"><label>Tagline</label><input type="text" id="aTagline" placeholder="Fly With the Golden Lotus"></div>
+        </div>
+        <div class="a-field"><label>Logo (Image URL or Data URI)</label><input type="text" id="aLogo" placeholder="Paste image URL / data URI"></div>
+        <div class="a-field"><label>Favicon (Image URL)</label><input type="text" id="aFavicon" placeholder="Paste image URL"></div>
+        <div class="admin-btn-row">
+          <button class="admin-btn" id="saveIdentity">Save Identity</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== THEME ===== -->
+    <section class="admin-section" id="tabpane-theme">
+      <div class="admin-card">
+        <h3>Brand Colors</h3>
+        <p class="card-desc">Define the entire visual palette. These map to every page.</p>
+        <div class="a-grid">
+          <div class="a-field"><label>Primary (VNA Blue)</label><input type="color" id="aPrimary" style="height:46px;padding:4px"></div>
+          <div class="a-field"><label>Primary Dark</label><input type="color" id="aPrimaryDark" style="height:46px;padding:4px"></div>
+          <div class="a-field"><label>Accent (Golden)</label><input type="color" id="aSecondary" style="height:46px;padding:4px"></div>
+          <div class="a-field"><label>Creme</label><input type="color" id="aCreme" style="height:46px;padding:4px"></div>
+          <div class="a-field"><label>Background</label><input type="color" id="aBackground" style="height:46px;padding:4px"></div>
+          <div class="a-field"><label>Surface</label><input type="color" id="aSurface" style="height:46px;padding:4px"></div>
+          <div class="a-field"><label>Text</label><input type="color" id="aText" style="height:46px;padding:4px"></div>
+          <div class="a-field"><label>Muted Text</label><input type="color" id="aTextMuted" style="height:46px;padding:4px"></div>
+          <div class="a-field"><label>Border</label><input type="color" id="aBorder" style="height:46px;padding:4px"></div>
+        </div>
+      </div>
+      <div class="admin-card">
+        <h3>Typography & Shape</h3>
+        <p class="card-desc">Choose a font pairing and corner radius for the whole site.</p>
+        <div class="a-grid">
+          <div class="a-field"><label>Font Pairing</label>
+            <select id="aFontPreset">
+              <option value="titillium-open-sans">Titillium Web + Open Sans</option>
+              <option value="montserrat-inter">Montserrat + Inter</option>
+              <option value="poppins-lato">Poppins + Lato</option>
+              <option value="playfair-open-sans">Playfair Display + Open Sans</option>
+            </select>
+          </div>
+          <div class="a-field"><label>Corner Radius</label>
+            <select id="aRadius">
+              <option value="soft">Soft</option>
+              <option value="round">Rounded</option>
+              <option value="sharp">Sharp</option>
+            </select>
+          </div>
+          <div class="a-field"><label>Header Style</label>
+            <select id="aHeaderStyle">
+              <option value="transparent">Transparent (over hero)</option>
+              <option value="solid">Always Solid</option>
+            </select>
+          </div>
+        </div>
+        <div class="a-field"><label>Global Background Image (URL)</label><input type="text" id="aBgImage" placeholder="Leave empty to use theme colors"></div>
+        <div class="admin-btn-row">
+          <button class="admin-btn" id="saveTheme">Save Theme</button>
+          <button class="admin-btn ghost" id="resetTheme">Reset to Default</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== NAVIGATION ===== -->
+    <section class="admin-section" id="tabpane-navigation">
+      <div class="admin-card">
+        <h3>Navigation</h3>
+        <p class="card-desc">Rename or hide pages in the header menu. Hidden pages remain reachable by direct link.</p>
+        <div id="navEditor"></div>
+      </div>
+    </section>
+
+    <!-- ===== PAGES ===== -->
+    <section class="admin-section" id="tabpane-pages">
+      <div class="admin-card">
+        <h3>Select a page</h3>
+        <p class="card-desc">Choose a page to arrange its content sections, then edit each section's fields.</p>
+        <div class="a-field">
+          <label>Page</label>
+          <select id="pageSelect"></select>
+        </div>
+        <div class="a-field"><label>Page Title Override</label><input type="text" id="pageTitle" placeholder="Leave blank to use the menu label"></div>
+        <div class="a-field"><label>Meta Description</label><input type="text" id="pageMeta" placeholder="Search engines show this under the title"></div>
+      </div>
+      <div class="admin-card">
+        <div class="admin-topbar" style="margin-bottom:var(--s4)">
+          <h3>Sections</h3>
+          <div class="admin-btn-row" style="margin-top:0">
+            <select id="addSectionType" style="background:#0C1E26;border:1px solid rgba(255,255,255,0.14);color:#EDF4F6;padding:10px 12px;border-radius:10px">
+              <option value="hero">Hero</option>
+              <option value="imageText">Image + Text</option>
+              <option value="featureCards">Feature Cards</option>
+              <option value="statsRow">Stats Row</option>
+              <option value="richText">Rich Text</option>
+              <option value="accordion">Accordion</option>
+              <option value="table">Table</option>
+              <option value="ctaBanner">CTA Banner</option>
+              <option value="socialLinks">Social Links</option>
+              <option value="buttonRow">Button Row</option>
+              <option value="divider">Divider</option>
+            </select>
+            <button class="admin-btn" id="addSectionBtn">＋ Add</button>
+          </div>
+        </div>
+        <div id="sectionList"></div>
+      </div>
+      <div class="admin-card" id="sectionEditorCard" style="display:none">
+        <h3 id="sectionEditorTitle">Edit section</h3>
+        <div id="sectionEditor"></div>
+        <div class="admin-btn-row">
+          <button class="admin-btn" id="saveSection">Save Section</button>
+          <button class="admin-btn ghost" id="closeSectionEditor">Done</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TRANSFER ===== -->
+    <section class="admin-section" id="tabpane-transfer">
+      <div class="admin-card">
+        <h3>Publish your changes</h3>
+        <p class="card-desc">Edits live only in this browser until you publish. Export the config and replace <code>content.json</code> in your project, then redeploy.</p>
+        <div class="admin-btn-row">
+          <button class="admin-btn" id="exportBtn">Export config.json (download)</button>
+        </div>
+        <hr class="admin-divider">
+        <h3>Import</h3>
+        <p class="card-desc">Load a previously exported config, or reset to the published <code>content.json</code> defaults.</p>
+        <div class="a-field"><label>Import file</label><input type="file" id="importFile" accept=".json,application/json"></div>
+        <div class="admin-btn-row">
+          <button class="admin-btn ghost" id="importBtn">Import from file</button>
+          <button class="admin-btn ghost" id="discardDraftBtn">Discard local draft</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DANGER ===== -->
+    <section class="admin-section" id="tabpane-danger">
+      <div class="admin-card">
+        <h3 style="color:#ff9d9d">Danger Zone</h3>
+        <p class="card-desc">Actions that affect the whole site — use with care.</p>
+        <div class="admin-btn-row">
+          <button class="admin-btn danger" id="lockBtn">Lock Admin Panel</button>
+          <a class="admin-btn ghost" href="index.html" style="text-decoration:none">Open Website</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="admin-toast" id="adminToast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+<script>
+(function () {
+  var isAuthed = VNA.isUnlocked();
+  var backdrop = document.getElementById('loginBackdrop');
+  var shell = document.getElementById('adminShell');
+  var form = document.getElementById('loginForm');
+  var pass = document.getElementById('loginPass');
+  var err = document.getElementById('loginError');
+
+  function showShell() {
+    backdrop.style.display = 'none';
+    shell.style.display = 'flex';
+    VNA.loadContent().then(function () {
+      VNA.applyTheme();
+      bindTabs();
+      loadIdentity();
+      loadTheme();
+      loadNavigation();
+      loadPages();
+    });
+  }
+
+  if (isAuthed) showShell();
+  else {
+    backdrop.style.display = 'flex';
+    pass.focus();
+  }
+
+  /* async sha */
+  function sha256(str) {
+    var buf = new TextEncoder().encode(str);
+    return crypto.subtle.digest('SHA-256', buf).then(function (d) {
+      return Array.from(new Uint8Array(d)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+    });
+  }
+  form.addEventListener('submit', function (e) { e.preventDefault(); doLogin(); });
+  function doLogin() {
+    var val = pass.value;
+    var expected = VNA.getPasswordHash();
+    if (!expected) { err.textContent = 'No password configured. Set content.json admin.passwordHash.'; return; }
+    sha256(val).then(function (h) {
+      if (h === expected) { err.textContent = ''; VNA.unlock(); showShell(); }
+      else { err.textContent = 'Incorrect password. Try again.'; pass.select(); pass.focus(); }
+    });
+  }
+
+  /* ===== TABS ===== */
+  function bindTabs() {
+    var titles = { identity:'Identity', theme:'Theme', navigation:'Navigation', pages:'Pages & Sections', transfer:'Import / Export', danger:'Danger Zone' };
+    document.querySelectorAll('[data-admin-link]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var tab = a.getAttribute('data-tab');
+        document.querySelectorAll('[data-admin-link]').forEach(function (x) { x.classList.remove('active'); });
+        a.classList.add('active');
+        document.querySelectorAll('.admin-section').forEach(function (s) { s.classList.remove('active'); });
+        var pane = document.getElementById('tabpane-' + tab);
+        if (pane) pane.classList.add('active');
+        document.getElementById('tabTitle').textContent = titles[tab] || tab;
+      });
+    });
+  }
+
+  /* ===== IDENTITY ===== */
+  function loadIdentity() {
+    var id = VNA.identity();
+    setVal('aSiteName', id.siteName);
+    setVal('aTagline', id.tagline);
+    setVal('aLogo', id.logo ? id.logo.image : '');
+    setVal('aFavicon', id.favicon ? id.favicon.image : '');
+  }
+  document.getElementById('saveIdentity').addEventListener('click', function () {
+    VNA.setDraftPath('identity.siteName', gv('aSiteName'));
+    VNA.setDraftPath('identity.tagline', gv('aTagline'));
+    VNA.setDraftPath('identity.logo.image', gv('aLogo'));
+    VNA.setDraftPath('identity.favicon.image', gv('aFavicon'));
+    VNA.applyTheme();
+    VNA.toast('Identity saved & applied.');
+  });
+
+  /* ===== THEME ===== */
+  function loadTheme() {
+    var t = VNA.theme();
+    var c = t.colors;
+    setVal('aPrimary', c.primary);
+    setVal('aPrimaryDark', c.primaryDark);
+    setVal('aSecondary', c.secondary);
+    setVal('aCreme', c.creme);
+    setVal('aBackground', c.background);
+    setVal('aSurface', c.surface);
+    setVal('aText', c.text);
+    setVal('aTextMuted', c.textMuted);
+    setVal('aBorder', c.border);
+    setVal('aFontPreset', t.fontPresetId);
+    setVal('aRadius', t.radius);
+    setVal('aHeaderStyle', t.headerStyle);
+    setVal('aBgImage', t.backgroundImage);
+  }
+  document.getElementById('saveTheme').addEventListener('click', function () {
+    VNA.setDraftPath('theme.colors.primary', gv('aPrimary'));
+    VNA.setDraftPath('theme.colors.primaryDark', gv('aPrimaryDark'));
+    VNA.setDraftPath('theme.colors.secondary', gv('aSecondary'));
+    VNA.setDraftPath('theme.colors.creme', gv('aCreme'));
+    VNA.setDraftPath('theme.colors.background', gv('aBackground'));
+    VNA.setDraftPath('theme.colors.surface', gv('aSurface'));
+    VNA.setDraftPath('theme.colors.text', gv('aText'));
+    VNA.setDraftPath('theme.colors.textMuted', gv('aTextMuted'));
+    VNA.setDraftPath('theme.colors.border', gv('aBorder'));
+    VNA.setDraftPath('theme.fontPresetId', gv('aFontPreset'));
+    VNA.setDraftPath('theme.radius', gv('aRadius'));
+    VNA.setDraftPath('theme.headerStyle', gv('aHeaderStyle'));
+    VNA.setDraftPath('theme.backgroundImage', gv('aBgImage'));
+    loadThemeFont();
+    VNA.applyTheme();
+    VNA.toast('Theme saved & applied.');
+  });
+  function loadThemeFont() {
+    var fp = { 'titillium-open-sans':'Titillium+Web:wght@400;600;700|Open+Sans:wght@400;600;700', 'montserrat-inter':'Montserrat:wght@400;600;700|Inter:wght@400;600;700', 'poppins-lato':'Poppins:wght@400;600;700|Lato:wght@400;700', 'playfair-open-sans':'Playfair+Display:wght@600;700|Open+Sans:wght@400;600;700' }[gv('aFontPreset')];
+    if (fp) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=' + fp + '&display=swap';
+      document.head.appendChild(link);
+    }
+  }
+  document.getElementById('resetTheme').addEventListener('click', function () {
+    // reset theme keys to content.json defaults
+    var t = VNA.theme();
+    Object.keys(t.colors).forEach(function (k) { VNA.setDraftPath('theme.colors.' + k, t.colors[k]); });
+    loadTheme();
+    VNA.toast('Theme reset to published defaults.');
+  });
+
+  /* ===== NAVIGATION ===== */
+  function loadNavigation() {
+    var host = document.getElementById('navEditor');
+    var routes = ['home','rules','about','about-server','about-socials','about-fleet','about-pacific','about-vasco','lotusmiles','lotusmiles-intro','lotusmiles-about','lotusmiles-howto','affiliates','affiliates-intro','affiliates-skyteam','affiliates-requirements','affiliates-tiers','affiliates-ours','support','careers','careers-intro','careers-positions','careers-results','careers-direct-entry','news','flight-info','flights','skyteam-flights','partner-flights','flight-board','meals-drinks'];
+    var html = '';
+    routes.forEach(function (r) {
+      var ov = VNA.navOverrides()[r] || {};
+      html += '<div class="a-sec-item" data-navcheck data-route="' + r + '">';
+      html += '<label style="display:flex;align-items:center;gap:10px;flex:1;min-width:0"><input type="checkbox" data-navhidden ' + (ov.hidden ? 'checked' : '') + '> <span style="font-weight:600;font-size:0.92rem">' + VNA.labelFor(r) + '</span></label>';
+      html += '<input type="text" data-navlabel value="' + (ov.label || '') + '" placeholder="Rename" style="width:170px;background:#0C1E26;border:1px solid rgba(255,255,255,0.14);color:#EDF4F6;padding:7px 10px;border-radius:8px">';
+      html += '</div>';
+    });
+    host.innerHTML = '<p class="a-hint" style="margin-bottom:var(--s3)">Tick a page to hide it from the menu. Type a custom label to rename it. Changes save automatically.</p>' + html;
+    host.querySelectorAll('[data-navhidden]').forEach(function (cb) {
+      cb.addEventListener('change', saveNav);
+    });
+    host.querySelectorAll('[data-navlabel]').forEach(function (inp) {
+      inp.addEventListener('change', saveNav);
+    });
+  }
+  function saveNav() {
+    document.querySelectorAll('[data-navcheck]').forEach(function (row) {
+      var r = row.getAttribute('data-route');
+      var hidden = row.querySelector('[data-navhidden]').checked;
+      var label = row.querySelector('[data-navlabel]').value.trim();
+      var ov = VNA.navOverrides()[r] || {};
+      var patch = {};
+      if (hidden) patch.hidden = true; else delete patch._unused;
+      if (label) patch.label = label; else patch.label = undefined;
+      var merged = Object.assign({}, ov);
+      if (hidden) merged.hidden = true; else delete merged.hidden;
+      if (label) merged.label = label; else delete merged.label;
+      VNA.setDraftPath('navOverrides.' + r, merged);
+    });
+    VNA.toast('Navigation updated.');
+  }
+
+  /* ===== PAGES ===== */
+  var currentPage = null;
+  var pagesList = null;
+
+  function loadPages() {
+    pagesList = [];
+    var all = VNA.allPages();
+    Object.keys(all).forEach(function (k) { if (all[k]) pagesList.push(k); });
+    // order by nav
+    pagesList.sort();
+    var sel = document.getElementById('pageSelect');
+    sel.innerHTML = '';
+    pagesList.forEach(function (k) {
+      var o = document.createElement('option');
+      o.value = k;
+      o.textContent = VNA.labelFor(k) + ' (' + k + ')';
+      sel.appendChild(o);
+    });
+    if (pagesList.indexOf(currentPage) === -1) currentPage = pagesList[0] || 'home';
+    sel.value = currentPage;
+    sel.addEventListener('change', function () {
+      currentPage = sel.value;
+      loadPageEditor();
+    });
+    loadPageEditor();
+  }
+
+  function loadPageEditor() {
+    var page = VNA.allPages()[currentPage] || { sections: [] };
+    setVal('pageTitle', page.titleOverride || '');
+    setVal('pageMeta', page.metaDescription || '');
+    renderSectionList(page.sections || []);
+  }
+
+  function renderSectionList(sections) {
+    var host = document.getElementById('sectionList');
+    if (!sections.length) { host.innerHTML = '<div class="empty-state" style="border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.6)">No sections yet. Add one to start building this page.</div>'; return; }
+    var html = '';
+    sections.forEach(function (sec, i) {
+      var title = secTitle(sec);
+      html += '<div class="a-sec-item" data-sec-row data-index="' + i + '">';
+      html += '<div class="handle"><span class="grip" title="Drag">⠿</span><span class="type-tag">' + sec.type + '</span></div>';
+      html += '<span class="title" style="flex:1">' + (title || '(untitled)') + '</span>';
+      html += '<div class="sec-actions" data-index="' + i + '">';
+      html += '<button class="icon-btn" data-editsec title="Edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg></button>';
+      html += '<button class="icon-btn" data-movesec data-dir="up" title="Move up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>';
+      html += '<button class="icon-btn" data-movesec data-dir="down" title="Move down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></button>';
+      html += '<button class="icon-btn del" data-delsec title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M6 6l1 15h10l1-15"/></svg></button>';
+      html += '</div></div>';
+    });
+    host.innerHTML = html;
+    host.querySelectorAll('[data-editsec]').forEach(function (b) { b.addEventListener('click', function () { openSectionEditor(parseInt(b.closest('[data-sec-row]').getAttribute('data-index'), 10)); }); });
+    host.querySelectorAll('[data-delsec]').forEach(function (b) { b.addEventListener('click', function () { removeSection(parseInt(b.closest('[data-sec-row]').getAttribute('data-index'), 10)); }); });
+    host.querySelectorAll('[data-movesec]').forEach(function (b) { b.addEventListener('click', function () { moveSection(parseInt(b.closest('[data-sec-row]').getAttribute('data-index'), 10), b.getAttribute('data-dir')); }); });
+  }
+
+  function secTitle(sec) {
+    var d = sec.data || {};
+    return d.heading || d.title || (d.items && d.items[0] && d.items[0].title) || '';
+  }
+
+  function currentSections() {
+    var page = VNA.allPages()[currentPage] || { sections: [] };
+    return page.sections || [];
+  }
+  function saveSections(list) {
+    VNA.setDraftPath('pages.' + currentPage + '.sections', list);
+    renderSectionList(list);
+  }
+
+  document.getElementById('addSectionBtn').addEventListener('click', function () {
+    var type = document.getElementById('addSectionType').value;
+    var sec = makeSection(type);
+    var list = currentSections();
+    list.push(sec);
+    saveSections(list);
+    VNA.toast('Added ' + type + ' section.');
+  });
+
+  function makeSection(type) {
+    var id = type + '_' + Math.random().toString(36).slice(2, 8);
+    var data = defaultsFor(type);
+    return { id: id, type: type, data: data };
+  }
+  function defaultsFor(type) {
+    switch (type) {
+      case 'hero': return { eyebrow:'', heading:'Heading', subheading:'', backgroundImage:'', overlay:true, align:'left', height:'medium', buttons:[] };
+      case 'imageText': return { heading:'Heading', body:'Body text', image:'', imagePosition:'left', buttons:[] };
+      case 'featureCards': return { heading:'', layout:'grid', columns:'3', items:[{icon:'',title:'Card',text:'',link:'',featured:false}] };
+      case 'statsRow': return { items:[{value:'100',label:'Label'}] };
+      case 'richText': return { heading:'', body:'Rich text', align:'left', width:'narrow' };
+      case 'accordion': return { heading:'', items:[{question:'Question',answer:'Answer'}] };
+      case 'table': return { heading:'', columns:[{label:'Column'},{label:'Column'}], rows:[{cells:[{value:''},{value:''}]}] };
+      case 'ctaBanner': return { heading:'Heading', body:'Body', tone:'brand', button:{label:'Button',link:'',style:'primary'} };
+      case 'socialLinks': return { heading:'', items:[{platform:'discord',label:'Discord',url:''}] };
+      case 'buttonRow': return { align:'center', buttons:[{label:'Button',link:'',style:'secondary'}] };
+      case 'divider': return { style:'space', size:'small' };
+      default: return {};
+    }
+  }
+
+  function removeSection(i) {
+    var list = currentSections();
+    list.splice(i, 1);
+    saveSections(list);
+    if (editingIndex === i || editingIndex > i) { editingIndex--; }
+    VNA.toast('Section removed.');
+  }
+  function moveSection(i, dir) {
+    var list = currentSections();
+    var j = dir === 'up' ? i - 1 : i + 1;
+    if (j < 0 || j >= list.length) return;
+    var tmp = list[i]; list[i] = list[j]; list[j] = tmp;
+    saveSections(list);
+    if (editingIndex === i) editingIndex = j;
+    else if (editingIndex === j) editingIndex = i;
+  }
+
+  /* ===== SECTION EDITOR ===== */
+  var editingIndex = -1;
+  function openSectionEditor(i) {
+    editingIndex = i;
+    var list = currentSections();
+    var sec = list[i];
+    document.getElementById('sectionEditorCard').style.display = 'block';
+    document.getElementById('sectionEditorTitle').textContent = 'Edit ' + sec.type + ' section';
+    var host = document.getElementById('sectionEditor');
+    host.innerHTML = buildEditorForm(sec);
+    bindEditorForm(sec);
+  }
+  document.getElementById('closeSectionEditor').addEventListener('click', function () {
+    document.getElementById('sectionEditorCard').style.display = 'none';
+    editingIndex = -1;
+  });
+
+  function buildEditorForm(sec) {
+    var d = sec.data || {};
+    var html = '';
+    function field(label, id, value, isTextarea) {
+      var v = (value == null ? '' : String(value)).replace(/"/g, '&quot;');
+      return '<div class="a-field"><label>' + label + '</label>' +
+        (isTextarea ? '<textarea data-secf id="' + id + '">' + v + '</textarea>' : '<input type="text" data-secf id="' + id + '" value="' + v + '">') + '</div>';
+    }
+    switch (sec.type) {
+      case 'hero':
+        html += field('Eyebrow', 'fEyebrow', d.eyebrow);
+        html += field('Heading', 'fHeading', d.heading);
+        html += field('Subheading (Markdown)', 'fSubheading', d.subheading, true);
+        html += field('Background Image URL', 'fBgImage', d.backgroundImage);
+        html += field('Align', 'fAlign', d.align);
+        html += field('Height', 'fHeight', d.height);
+        html += '<div class="a-field"><label>Overlay</label><input type="checkbox" data-seccheck id="fOverlay"' + (d.overlay ? ' checked' : '') + '></div>';
+        break;
+      case 'imageText':
+        html += field('Heading', 'fHeading', d.heading);
+        html += field('Body (Markdown)', 'fBody', d.body, true);
+        html += field('Image URL', 'fImage', d.image);
+        html += field('Image Position (left/right)', 'fImgPos', d.imagePosition);
+        break;
+      case 'featureCards':
+        html += field('Heading', 'fHeading', d.heading);
+        html += field('Layout (grid/list)', 'fLayout', d.layout);
+        html += field('Columns (2/3)', 'fColumns', d.columns);
+        html += '<div class="a-hint" style="margin-bottom:var(--s3)">Edit card items as JSON (icon name, title, text, link, featured).</div>';
+        html += field('Items (JSON array)', 'fItems', JSON.stringify(d.items || []), true);
+        break;
+      case 'statsRow':
+        html += '<div class="a-hint" style="margin-bottom:var(--s3)">Edit stats as a JSON array of {value, label}.</div>';
+        html += field('Items (JSON array)', 'fItems', JSON.stringify(d.items || []), true);
+        break;
+      case 'richText':
+        html += field('Heading', 'fHeading', d.heading);
+        html += field('Body (Markdown)', 'fBody', d.body, true);
+        html += field('Align (left/center)', 'fAlign', d.align);
+        html += field('Width (full/narrow)', 'fWidth', d.width);
+        break;
+      case 'accordion':
+        html += field('Heading', 'fHeading', d.heading);
+        html += '<div class="a-hint" style="margin-bottom:var(--s3)">Edit items as a JSON array of {question, answer (Markdown)}.</div>';
+        html += field('Items (JSON array)', 'fItems', JSON.stringify(d.items || []), true);
+        break;
+      case 'table':
+        html += field('Heading', 'fHeading', d.heading);
+        html += field('Columns (JSON array)', 'fColumnsData', JSON.stringify(d.columns || []), true);
+        html += field('Rows (JSON array)', 'fRows', JSON.stringify(d.rows || []), true);
+        break;
+      case 'ctaBanner':
+        html += field('Heading', 'fHeading', d.heading);
+        html += field('Body', 'fBody', d.body, true);
+        html += field('Tone (brand/gold/subtle)', 'fTone', d.tone);
+        html += field('Button Label', 'fBtnLabel', d.button ? d.button.label : '');
+        html += field('Button Link', 'fBtnLink', d.button ? d.button.link : '');
+        break;
+      case 'socialLinks':
+        html += field('Heading', 'fHeading', d.heading);
+        html += field('Items (JSON array of {platform,label,url})', 'fItems', JSON.stringify(d.items || []), true);
+        break;
+      case 'buttonRow':
+        html += field('Align (center/left)', 'fAlign', d.align);
+        html += field('Buttons (JSON array of {label,link,style})', 'fItems', JSON.stringify(d.buttons || []), true);
+        break;
+      case 'divider':
+        html += field('Size (small/medium/large)', 'fSize', d.size);
+        break;
+      default:
+        html += '<p class="a-hint">No editable fields for this type.</p>';
+    }
+    return html;
+  }
+
+  function bindEditorForm(sec) {
+    var d = sec.data || {};
+    var host = document.getElementById('sectionEditor');
+    host.querySelectorAll('[data-secf]').forEach(function (inp) { /* values read on save */ });
+  }
+
+  document.getElementById('saveSection').addEventListener('click', function () {
+    if (editingIndex < 0) return;
+    var list = currentSections();
+    var sec = list[editingIndex];
+    var d = sec.data;
+    var host = document.getElementById('sectionEditor');
+    function v(id) { var el = document.getElementById(id); return el ? el.value : ''; }
+    function cb(id) { var el = document.getElementById(id); return el ? el.checked : false; }
+    switch (sec.type) {
+      case 'hero':
+        d.eyebrow = v('fEyebrow'); d.heading = v('fHeading'); d.subheading = v('fSubheading');
+        d.backgroundImage = v('fBgImage'); d.align = v('fAlign'); d.height = v('fHeight');
+        d.overlay = !!document.getElementById('fOverlay') && document.getElementById('fOverlay').checked;
+        break;
+      case 'imageText':
+        d.heading = v('fHeading'); d.body = v('fBody'); d.image = v('fImage'); d.imagePosition = v('fImgPos');
+        break;
+      case 'featureCards':
+        d.heading = v('fHeading'); d.layout = v('fLayout'); d.columns = v('fColumns');
+        try { d.items = JSON.parse(v('fItems')); } catch (e) { VNA.toast('Invalid JSON for items.'); return; }
+        break;
+      case 'statsRow':
+        try { d.items = JSON.parse(v('fItems')); } catch (e2) { VNA.toast('Invalid JSON for items.'); return; }
+        break;
+      case 'richText':
+        d.heading = v('fHeading'); d.body = v('fBody'); d.align = v('fAlign'); d.width = v('fWidth');
+        break;
+      case 'accordion':
+        d.heading = v('fHeading');
+        try { d.items = JSON.parse(v('fItems')); } catch (e3) { VNA.toast('Invalid JSON for items.'); return; }
+        break;
+      case 'table':
+        d.heading = v('fHeading');
+        try { d.columns = JSON.parse(v('fColumnsData')); d.rows = JSON.parse(v('fRows')); } catch (e4) { VNA.toast('Invalid JSON for table.'); return; }
+        break;
+      case 'ctaBanner':
+        d.heading = v('fHeading'); d.body = v('fBody'); d.tone = v('fTone');
+        d.button = d.button || {}; d.button.label = v('fBtnLabel'); d.button.link = v('fBtnLink');
+        break;
+      case 'socialLinks':
+        d.heading = v('fHeading');
+        try { d.items = JSON.parse(v('fItems')); } catch (e5) { VNA.toast('Invalid JSON for items.'); return; }
+        break;
+      case 'buttonRow':
+        d.align = v('fAlign');
+        try { d.buttons = JSON.parse(v('fItems')); } catch (e6) { VNA.toast('Invalid JSON for buttons.'); return; }
+        break;
+      case 'divider':
+        d.size = v('fSize');
+        break;
+    }
+    list[editingIndex] = sec;
+    saveSections(list);
+    VNA.toast('Section saved.');
+  });
+
+  /* ===== TRANSFER ===== */
+  document.getElementById('exportBtn').addEventListener('click', function () {
+    var json = VNA.exportJSON();
+    var blob = new Blob([json], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'content.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    VNA.toast('Exported content.json — replace the file in your project and redeploy.');
+  });
+  document.getElementById('importBtn').addEventListener('click', function () {
+    var file = document.getElementById('importFile').files[0];
+    if (!file) { VNA.toast('Choose a file first.'); return; }
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        var data = JSON.parse(e.target.result);
+        // write into draft as full overlay
+        VNA.setDraftPath('..', undefined); // noop
+        localStorage.setItem('vna_admin_draft_v1', JSON.stringify(data));
+        VNA.loadContent().then(function () { VNA.toast('Imported. Reload to see changes.'); location.reload(); });
+      } catch (ex) { VNA.toast('Invalid config file.'); }
+    };
+    reader.readAsText(file);
+  });
+  document.getElementById('discardDraftBtn').addEventListener('click', function () {
+    if (confirm('Discard all local edits and return to the published content.json?')) {
+      VNA.clearDraft();
+      VNA.loadContent().then(function () { location.reload(); });
+    }
+  });
+
+  /* ===== DANGER ===== */
+  document.getElementById('lockBtn').addEventListener('click', function () {
+    VNA.lock();
+    location.href = 'admin.html';
+  });
+
+  /* ===== helpers ===== */
+  function setVal(id, val) { var el = document.getElementById(id); if (el) el.value = (val == null ? '' : val); }
+  function gv(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+})();
+</script>
+</body>
+</html>
